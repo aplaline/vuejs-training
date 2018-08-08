@@ -63,6 +63,58 @@
 import cloneDeep from 'lodash/cloneDeep'
 import dialogPolyfill from 'dialog-polyfill'
 
+const PRODUCTS = [
+  {
+    id: 1,
+    name: 'Klucz francuski',
+    description: 'Nastawny klucz płaski do operowania na rozmiarach od 2 do 30',
+    price: 49.99,
+    availability: 21,
+  }, {
+    id: 2,
+    name: 'Młotek gumowy',
+    description: 'Młotek z wygumowanym obuchem do stosowania przy elementach mogących ulec uszkodzeniu przy obróbce metalowym obuchem',
+    price: 30.99,
+    availability: 10,
+  }, {
+    id: 3,
+    name: 'Kombinerki',
+    description: 'Doskonałej jakości kombinerki do wielorakiego zastosowania',
+    price: 69.99,
+    availability: 14,
+  }, {
+    id: 4,
+    name: 'Zestaw kluczy nasadowych',
+    description: 'Bogady zestaw kluczy nasadowych (od 3mm do 30mm)',
+    price: 319.99,
+    availability: 3,
+  }, {
+    id: 5,
+    name: 'Wiertarka udarowa',
+    description: 'Podczas prac remontowo-budowlanych jednym z najczęściej używanych urządzeń są wiertarki, niezastąpione, jeśli chcemy wykonać jakikolwiek otwór.<br>W naszej ofercie znajdziesz wiertarki udarowe i bez udaru, wiertarki kątowe do specjalnych zastosowań.',
+    price: 99.99,
+    availability: 8,
+  }, {
+    id: 6,
+    name: 'Wyżynarka przewodowa 740W',
+    description: 'Wyrzynarki to narzędzia, bez których nie obędzie się żadna ekipa remontowa, ale też majsterkowicze i przeciętne gospodarstwa domowe. Pozwalają na precyzyjne cięcie zarówno drewna, ale też metalu i plastiku. Korzystając z wyrzynarek możesz przyciąć listwy, wyciąć otwory pod kuchenkę i zlewozmywak w blatach, wycinać otwory o niewielkiej krzywiźnie, a to tylko niewielkie spektrum ich zastosowań.',
+    price: 199.99,
+    availability: 2,
+  }, {
+    id: 7,
+    name: 'Szlifierka kątowa 700W',
+    description: 'Szlifierki kątowe służą przede wszystkim do cięcia i szlifowania metalu oraz innych twardych materiałów. Najczęściej używa się ich do przecinania prętów zbrojeniowych, blachy, cięcia betonowych i ceramicznych elementów, a także do zgrubnego szlifowania twardych powierzchni. Decydując się na zakup szlifierki kątowej miejmy na uwadze przede wszystkim średnicę tarczy oraz moc urządzenia – oczywiście w zależności od materiałów do jakich ma być przeznaczone. Droższe egzemplarze szlifierek kątowych zaopatrzone są często w system antywibracyjny znacznie podnoszący komfort pracy.',
+    price: 139.99,
+    availability: 7,
+  }, {
+    id: 8,
+    name: 'Papier ścierny 4+10 280 x 115 mm P120 ',
+    description: 'Papiery i płótna ścierne do szlifierek oscylacyjnych, wyposażone w specjalne układy otworów odpylających. Arkusze dostępne w rożnych kształtach, pasujących do szlifierek ze stopą prostokątną, stopą trójkątną (Delta), czy stopą typu żelazko. Papiery w pełnym zakresie granulacji (grubości) ziarna, do wykorzystania w pracach zgrubnych jak i wykończeniowych, wymagających najdrobniejszego ziarna.',
+    price: 9.99,
+    availability: 0,
+  }
+]
+
 export default {
   name: 'home',
   components: {
@@ -81,55 +133,7 @@ export default {
       availability: 'all',
       product: null,
       editedProduct: null,
-      items: [ {
-        id: 1,
-        name: 'Klucz francuski',
-        description: 'Nastawny klucz płaski do operowania na rozmiarach od 2 do 30',
-        price: 49.99,
-        availability: 21,
-      }, {
-        id: 2,
-        name: 'Młotek gumowy',
-        description: 'Młotek z wygumowanym obuchem do stosowania przy elementach mogących ulec uszkodzeniu przy obróbce metalowym obuchem',
-        price: 30.99,
-        availability: 10,
-      }, {
-        id: 3,
-        name: 'Kombinerki',
-        description: 'Doskonałej jakości kombinerki do wielorakiego zastosowania',
-        price: 69.99,
-        availability: 14,
-      }, {
-        id: 4,
-        name: 'Zestaw kluczy nasadowych',
-        description: 'Bogady zestaw kluczy nasadowych (od 3mm do 30mm)',
-        price: 319.99,
-        availability: 3,
-      }, {
-        id: 5,
-        name: 'Wiertarka udarowa',
-        description: 'Podczas prac remontowo-budowlanych jednym z najczęściej używanych urządzeń są wiertarki, niezastąpione, jeśli chcemy wykonać jakikolwiek otwór.<br>W naszej ofercie znajdziesz wiertarki udarowe i bez udaru, wiertarki kątowe do specjalnych zastosowań.',
-        price: 99.99,
-        availability: 8,
-      }, {
-        id: 6,
-        name: 'Wyżynarka przewodowa 740W',
-        description: 'Wyrzynarki to narzędzia, bez których nie obędzie się żadna ekipa remontowa, ale też majsterkowicze i przeciętne gospodarstwa domowe. Pozwalają na precyzyjne cięcie zarówno drewna, ale też metalu i plastiku. Korzystając z wyrzynarek możesz przyciąć listwy, wyciąć otwory pod kuchenkę i zlewozmywak w blatach, wycinać otwory o niewielkiej krzywiźnie, a to tylko niewielkie spektrum ich zastosowań.',
-        price: 199.99,
-        availability: 2,
-      }, {
-        id: 7,
-        name: 'Szlifierka kątowa 700W',
-        description: 'Szlifierki kątowe służą przede wszystkim do cięcia i szlifowania metalu oraz innych twardych materiałów. Najczęściej używa się ich do przecinania prętów zbrojeniowych, blachy, cięcia betonowych i ceramicznych elementów, a także do zgrubnego szlifowania twardych powierzchni. Decydując się na zakup szlifierki kątowej miejmy na uwadze przede wszystkim średnicę tarczy oraz moc urządzenia – oczywiście w zależności od materiałów do jakich ma być przeznaczone. Droższe egzemplarze szlifierek kątowych zaopatrzone są często w system antywibracyjny znacznie podnoszący komfort pracy.',
-        price: 139.99,
-        availability: 7,
-      }, {
-        id: 8,
-        name: 'Papier ścierny 4+10 280 x 115 mm P120 ',
-        description: 'Papiery i płótna ścierne do szlifierek oscylacyjnych, wyposażone w specjalne układy otworów odpylających. Arkusze dostępne w rożnych kształtach, pasujących do szlifierek ze stopą prostokątną, stopą trójkątną (Delta), czy stopą typu żelazko. Papiery w pełnym zakresie granulacji (grubości) ziarna, do wykorzystania w pracach zgrubnych jak i wykończeniowych, wymagających najdrobniejszego ziarna.',
-        price: 9.99,
-        availability: 0,
-      } ]
+      items: PRODUCTS,
     }
   },
   computed: {
@@ -143,10 +147,10 @@ export default {
       }
 
       const emptySearch = () => true
-      const termSearch = x =>  x.name.toLowerCase().indexOf(this.search) !== -1 || x.description.toLowerCase().indexOf(this.search) !== -1
+      const termSearch = x => x.name.toLowerCase().indexOf(this.search) !== -1 || x.description.toLowerCase().indexOf(this.search) !== -1
       const availabileSearch = x => x.availability > 0
       const unavailabileSearch = x => x.availability === 0
-      const filter = this.search === '' ? emptySearch : termSearch
+      const search = this.search === '' ? emptySearch : termSearch
 
       const AVAILABILITY = {
         all: emptySearch,
@@ -156,7 +160,7 @@ export default {
       }
       const availability = AVAILABILITY[this.availability]
 
-      return this.items.filter(filter).filter(availability).sort(SORTERS[this.sort])
+      return this.items.filter(search).filter(availability).sort(SORTERS[this.sort])
     }
   },
   methods: {
