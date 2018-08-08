@@ -1,7 +1,18 @@
 <template>
   <div class="home">
     <h1>Magazyn</h1>
-    <article v-for="(item, index) in items" :key="item.id" :class="{ odd: index % 2 == 0, even: index % 2 == 1 }">
+
+    <label>Sortuj po</label>
+
+    <select v-model="sort">
+      <option value="id"></option>
+      <option value="name">nazwie</option>
+      <option value="description">opisie</option>
+      <option value="price">cenie</option>
+      <option value="availability">dostępności</option>
+    </select>
+
+    <article v-for="(item, index) in products" :key="item.id" :class="{ odd: index % 2 == 0, even: index % 2 == 1 }">
       <header>{{ item.name }}</header>
       <main v-html="item.description" />
       <footer>Cena: {{ item.price }}, Dostępność: {{ item.availability }}</footer>
@@ -45,6 +56,7 @@ export default {
   },
   data () {
     return {
+      sort: 'id',
       product: null,
       editedProduct: null,
       items: [ {
@@ -74,6 +86,19 @@ export default {
       } ]
     }
   },
+  computed: {
+    products () {
+      const SORTERS = {
+        id: (a, b) => a.id - b.id,
+        name: (a, b) => a.name.localeCompare(b.name),
+        description: (a, b) => a.description.localeCompare(b.description),
+        price: (a, b) => a.price - b.price,
+        availability: (a, b) => a.availability - b.availability,
+      }
+
+      return this.items.slice(0).sort(SORTERS[this.sort])
+    }
+  },
   methods: {
     update (item) {
       this.product = cloneDeep(item)
@@ -95,6 +120,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+select {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
 article {
   padding: 5px;
   display: grid;
