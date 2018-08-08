@@ -61,6 +61,7 @@
 
 <script>
 import cloneDeep from 'lodash/cloneDeep'
+import dialogPolyfill from 'dialog-polyfill'
 
 export default {
   name: 'home',
@@ -162,7 +163,10 @@ export default {
     update (item) {
       this.product = cloneDeep(item)
       this.editedProduct = item
-      this.$nextTick(() => this.$refs.editor.showModal())
+      this.$nextTick(() => {
+        dialogPolyfill.registerDialog(this.$refs.editor)
+        this.$refs.editor.showModal()
+      })
     },
     saveChanges () {
       this.editedProduct.name = this.product.name
