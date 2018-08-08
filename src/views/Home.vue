@@ -45,11 +45,11 @@
       </div>
       <div class="field">
         <label>Cena</label>
-        <input type="number" v-model="product.price">
+        <input type="number" v-model.number="product.price">
       </div>
       <div class="field">
         <label>Dostępność</label>
-        <input type="number" v-model="product.availability">
+        <input type="number" v-model.number="product.availability">
       </div>
       <footer>
         <button v-on:click="saveChanges">Save</button>
