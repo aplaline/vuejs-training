@@ -3,7 +3,6 @@
     <h1>Magazyn</h1>
 
     <label>Sortuj po</label>
-
     <select v-model="sort">
       <option value="id"></option>
       <option value="name">nazwie</option>
@@ -11,6 +10,9 @@
       <option value="price">cenie</option>
       <option value="availability">dostępności</option>
     </select>
+
+    <label>Szukaj</label>
+    <input v-model="search">
 
     <article v-for="(item, index) in products" :key="item.id" :class="{ odd: index % 2 == 0, even: index % 2 == 1 }">
       <header>{{ item.name }}</header>
@@ -57,6 +59,7 @@ export default {
   data () {
     return {
       sort: 'id',
+      search: '',
       product: null,
       editedProduct: null,
       items: [ {
@@ -114,7 +117,11 @@ export default {
         availability: (a, b) => a.availability - b.availability,
       }
 
-      return this.items.slice(0).sort(SORTERS[this.sort])
+      const emptySearch = () => true
+      const termSearch = x =>  x.name.toLowerCase().indexOf(this.search) != -1 || x.description.toLowerCase().indexOf(this.search) != -1
+      const filter = this.search === '' ? emptySearch : termSearch
+
+      return this.items.filter(filter).sort(SORTERS[this.sort])
     }
   },
   methods: {
@@ -141,6 +148,11 @@ export default {
 select {
   margin-left: 5px;
   margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+select + label + input {
+  margin-left: 5px;
 }
 
 article {
