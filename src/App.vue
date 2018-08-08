@@ -1,29 +1,34 @@
 <template>
   <div id="app">
-    <nav id="nav">
-      <router-link to="/">Strona główna</router-link> |
+    <nav>
+      <router-link to="/">Magazyn</router-link> |
       <router-link to="/about">O programie</router-link>
     </nav>
-    <main id="main">
+    <main>
       <router-view />
     </main>
-    <footer id="footer">Aplikacja Magazyn</footer>
+    <footer>Aplikacja Magazyn</footer>
   </div>
 </template>
 
 <style>
+* {
+  box-sizing: border-box;
+}
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+</style>
 
+<style scoped>
 #app {
   min-height: 100%;
   max-height: 100%;
 
   display: grid;
-  grid-template:
+  grid-template-areas:
     "header"
     "main"
     "footer";
@@ -31,28 +36,28 @@ html, body {
   grid-template-rows: 50px 1fr 50px;
 }
 
-#nav {
+nav {
   margin: auto 20px;
   grid-area: header;
 }
 
-#nav a {
+nav a {
   font-weight: bold;
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
+nav a.router-link-exact-active {
   color: #42b983;
 }
 
-#main {
+main {
   margin: 10px 0 10px 10px;
   padding: 0 10px 0 0;
   overflow: auto;
   grid-area: main;
 }
 
-#footer {
+footer {
   margin: auto;
   grid-area: footer;
 }
