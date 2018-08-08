@@ -1,23 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <nav id="nav">
+      <router-link to="/">Strona główna</router-link> |
+      <router-link to="/about">O programie</router-link>
+    </nav>
+    <main id="main">
+      <router-view />
+    </main>
+    <footer id="footer">Aplikacja Magazyn</footer>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
+
+#app {
+  min-height: 100%;
+  max-height: 100%;
+
+  display: grid;
+  grid-template:
+    "header"
+    "main"
+    "footer";
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 1fr 50px;
+}
+
 #nav {
-  padding: 30px;
+  margin: auto 20px;
+  grid-area: header;
 }
 
 #nav a {
@@ -27,5 +43,17 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#main {
+  margin: 10px 0 10px 10px;
+  padding: 0 10px 0 0;
+  overflow: auto;
+  grid-area: main;
+}
+
+#footer {
+  margin: auto;
+  grid-area: footer;
 }
 </style>
