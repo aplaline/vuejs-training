@@ -28,12 +28,17 @@
         <label>Dostępność</label>
         <input type="number" v-model="product.availability">
       </div>
-      <button v-on:click="closeDialog">Close</button>
+      <footer>
+        <button v-on:click="saveChanges">Save</button>
+        <button v-on:click="closeDialog">Cancel</button>
+      </footer>
     </dialog>
   </div>
 </template>
 
 <script>
+import cloneDeep from 'lodash/cloneDeep'
+
 export default {
   name: 'home',
   components: {
@@ -41,6 +46,7 @@ export default {
   data () {
     return {
       product: null,
+      editedProduct: null,
       items: [ {
         id: 1,
         name: 'Klucz francuski',
@@ -70,12 +76,20 @@ export default {
   },
   methods: {
     update (item) {
-      this.product = item
+      this.product = cloneDeep(item)
+      this.editedProduct = item
       this.$nextTick(() => this.$refs.editor.showModal())
+    },
+    saveChanges () {
+      this.editedProduct.name = this.product.name
+      this.editedProduct.description = this.product.description
+      this.editedProduct.price = this.product.price
+      this.editedProduct.availability = this.product.availability
+      this.closeDialog()
     },
     closeDialog () {
       this.$refs.editor.close()
-    }
+    },
   }
 }
 </script>
@@ -117,8 +131,6 @@ article {
   }
 }
 
-
-
 .field {
   margin: 5px;
 
@@ -141,5 +153,12 @@ article {
   textarea {
     height: 8em;
   }
+}
+
+dialog footer {
+  height: 45px;
+  display: flex;
+  padding: 20px 0 0px 0;
+  justify-content: space-around;
 }
 </style>
