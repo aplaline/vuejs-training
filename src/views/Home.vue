@@ -13,7 +13,7 @@
       </select>
 
       <label>Szukaj</label>
-      <input v-model="search">
+      <input v-model="search" v-focus>
 
       <label>Dostępność</label>
       <select v-model="availability">
@@ -65,6 +65,13 @@ import cloneDeep from 'lodash/cloneDeep'
 export default {
   name: 'home',
   components: {
+  },
+  directives: {
+    focus: {
+      inserted (e) {
+        e.focus()
+      },
+    }
   },
   data () {
     return {
