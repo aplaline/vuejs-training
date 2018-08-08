@@ -83,6 +83,24 @@ export default {
         description: 'Bogady zestaw kluczy nasadowych (od 3mm do 30mm)',
         price: 319.99,
         availability: 3,
+      }, {
+        id: 5,
+        name: 'Wiertarka udarowa',
+        description: 'Podczas prac remontowo-budowlanych jednym z najczęściej używanych urządzeń są wiertarki, niezastąpione, jeśli chcemy wykonać jakikolwiek otwór.<br>W naszej ofercie znajdziesz wiertarki udarowe i bez udaru, wiertarki kątowe do specjalnych zastosowań.',
+        price: 99.99,
+        availability: 8,
+      }, {
+        id: 6,
+        name: 'Wyżynarka przewodowa 740W',
+        description: 'Wyrzynarki to narzędzia, bez których nie obędzie się żadna ekipa remontowa, ale też majsterkowicze i przeciętne gospodarstwa domowe. Pozwalają na precyzyjne cięcie zarówno drewna, ale też metalu i plastiku. Korzystając z wyrzynarek możesz przyciąć listwy, wyciąć otwory pod kuchenkę i zlewozmywak w blatach, wycinać otwory o niewielkiej krzywiźnie, a to tylko niewielkie spektrum ich zastosowań.',
+        price: 199.99,
+        availability: 2,
+      }, {
+        id: 7,
+        name: 'Szlifierka kątowa 700W',
+        description: 'Szlifierki kątowe służą przede wszystkim do cięcia i szlifowania metalu oraz innych twardych materiałów. Najczęściej używa się ich do przecinania prętów zbrojeniowych, blachy, cięcia betonowych i ceramicznych elementów, a także do zgrubnego szlifowania twardych powierzchni. Decydując się na zakup szlifierki kątowej miejmy na uwadze przede wszystkim średnicę tarczy oraz moc urządzenia – oczywiście w zależności od materiałów do jakich ma być przeznaczone. Droższe egzemplarze szlifierek kątowych zaopatrzone są często w system antywibracyjny znacznie podnoszący komfort pracy.',
+        price: 139.99,
+        availability: 7,
       } ]
     }
   },
@@ -145,14 +163,17 @@ article {
 
   header {
     grid-area: header;
+    font-size: 120%;
   }
 
   main {
     grid-area: main;
+    margin: 10px 0;
   }
 
   footer {
     grid-area: footer;
+    font-size: 120%;
   }
 
   aside {
