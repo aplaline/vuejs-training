@@ -2,17 +2,27 @@
   <div class="home">
     <h1>Magazyn</h1>
 
-    <label>Sortuj po</label>
-    <select v-model="sort">
-      <option value="id"></option>
-      <option value="name">nazwie</option>
-      <option value="description">opisie</option>
-      <option value="price">cenie</option>
-      <option value="availability">dostępności</option>
-    </select>
+    <section class="filters">
+      <label>Sortuj po</label>
+      <select v-model="sort">
+        <option value="id"></option>
+        <option value="name">nazwie</option>
+        <option value="description">opisie</option>
+        <option value="price">cenie</option>
+        <option value="availability">dostępności</option>
+      </select>
 
-    <label>Szukaj</label>
-    <input v-model="search">
+      <label>Szukaj</label>
+      <input v-model="search">
+
+      <label>Dostępność</label>
+      <select v-model="availability">
+        <option value="all">Wszystkie</option>
+        <option value="available">Dostępne</option>
+        <option value="low">Niski stan</option>
+        <option value="unavailable">Niedostępne</option>
+      </select>
+    </section>
 
     <article v-for="(item, index) in products" :key="item.id" :class="{ odd: index % 2 == 0, even: index % 2 == 1 }">
       <header>{{ item.name }}</header>
@@ -60,6 +70,7 @@ export default {
     return {
       sort: 'id',
       search: '',
+      availability: 'all',
       product: null,
       editedProduct: null,
       items: [ {
@@ -104,6 +115,12 @@ export default {
         description: 'Szlifierki kątowe służą przede wszystkim do cięcia i szlifowania metalu oraz innych twardych materiałów. Najczęściej używa się ich do przecinania prętów zbrojeniowych, blachy, cięcia betonowych i ceramicznych elementów, a także do zgrubnego szlifowania twardych powierzchni. Decydując się na zakup szlifierki kątowej miejmy na uwadze przede wszystkim średnicę tarczy oraz moc urządzenia – oczywiście w zależności od materiałów do jakich ma być przeznaczone. Droższe egzemplarze szlifierek kątowych zaopatrzone są często w system antywibracyjny znacznie podnoszący komfort pracy.',
         price: 139.99,
         availability: 7,
+      }, {
+        id: 8,
+        name: 'Papier ścierny 4+10 280 x 115 mm P120 ',
+        description: 'Papiery i płótna ścierne do szlifierek oscylacyjnych, wyposażone w specjalne układy otworów odpylających. Arkusze dostępne w rożnych kształtach, pasujących do szlifierek ze stopą prostokątną, stopą trójkątną (Delta), czy stopą typu żelazko. Papiery w pełnym zakresie granulacji (grubości) ziarna, do wykorzystania w pracach zgrubnych jak i wykończeniowych, wymagających najdrobniejszego ziarna.',
+        price: 9.99,
+        availability: 0,
       } ]
     }
   },
@@ -118,10 +135,20 @@ export default {
       }
 
       const emptySearch = () => true
-      const termSearch = x =>  x.name.toLowerCase().indexOf(this.search) != -1 || x.description.toLowerCase().indexOf(this.search) != -1
+      const termSearch = x =>  x.name.toLowerCase().indexOf(this.search) !== -1 || x.description.toLowerCase().indexOf(this.search) !== -1
+      const availabileSearch = x => x.availability > 0
+      const unavailabileSearch = x => x.availability === 0
       const filter = this.search === '' ? emptySearch : termSearch
 
-      return this.items.filter(filter).sort(SORTERS[this.sort])
+      const AVAILABILITY = {
+        all: emptySearch,
+        available: x => x.availability > 0,
+        low: x => x.availability < 3,
+        unavailable: x => x.availability === 0,
+      }
+      const availability = AVAILABILITY[this.availability]
+
+      return this.items.filter(filter).filter(availability).sort(SORTERS[this.sort])
     }
   },
   methods: {
@@ -145,14 +172,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-select {
-  margin-left: 5px;
-  margin-bottom: 10px;
-  margin-right: 5px;
-}
-
-select + label + input {
-  margin-left: 5px;
+.filters {
+  select, input {
+    margin-left: 5px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+  }
 }
 
 article {
