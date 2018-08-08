@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <h1>Magazyn</h1>
-    <article v-for="item in items" :key="item.id">
+    <article v-for="(item, index) in items" :key="item.id" :class="{ odd: index % 2 == 0, even: index % 2 == 1 }">
       <header>{{ item.name }}</header>
-      <main>{{ item.description }}</main>
+      <main v-html="item.description" />
       <footer>Cena: {{ item.price }}, Dostępność: {{ item.availability }}</footer>
       <aside>
         <button v-on:click="update(item)">Zaktualizuj</button>
@@ -45,8 +45,26 @@ export default {
         id: 1,
         name: 'Klucz francuski',
         description: 'Nastawny klucz płaski do operowania na rozmiarach od 2 do 30',
-        price: 50.3,
+        price: 49.99,
         availability: 21,
+      }, {
+        id: 2,
+        name: 'Młotek gumowy',
+        description: 'Młotek z wygumowanym obuchem do stosowania przy elementach mogących ulec uszkodzeniu przy obróbce metalowym obuchem',
+        price: 30.99,
+        availability: 10,
+      }, {
+        id: 3,
+        name: 'Kombinerki',
+        description: 'Doskonałej jakości kombinerki do wielorakiego zastosowania',
+        price: 69.99,
+        availability: 14,
+      }, {
+        id: 4,
+        name: 'Zestaw kluczy nasadowych',
+        description: 'Bogady zestaw kluczy nasadowych (od 3mm do 30mm)',
+        price: 319.99,
+        availability: 3,
       } ]
     }
   },
@@ -64,7 +82,17 @@ export default {
 
 <style lang="scss" scoped>
 article {
+  padding: 5px;
   display: grid;
+
+  &.odd {
+    background-color: #f0f0f0;
+  }
+
+  &.even {
+    background-color: #f8f8f8;
+  }
+
   grid-template-areas:
     "header actions"
     "main actions"
