@@ -208,6 +208,7 @@ article {
   header {
     grid-area: header;
     font-size: 120%;
+    font-weight: bolder;
   }
 
   main {
