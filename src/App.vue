@@ -5,7 +5,9 @@
       <router-link to="/about">O programie</router-link>
     </nav>
     <main>
-      <router-view />
+      <keep-alive>
+        <router-view />
+      </keep-alive>
     </main>
     <footer>Aplikacja Magazyn</footer>
   </div>
