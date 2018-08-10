@@ -20,6 +20,7 @@ router.render = function(req, res) {
 
 app.use('/api', jsonServer.defaults())
 app.use('/api', router)
+
 app.get('/', (req, res) => { res.end('Hello!') })
 
 app.ws('/socket', ws => {
