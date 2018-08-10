@@ -136,14 +136,22 @@ export default {
       this.closeDialog()
     },
     processCommand (command) {
-      if (command.op == 'PUT' || command.op == 'POST') {
+      console.log(command)
+      if (command.op == 'PUT') {
         const index = this.items.findIndex(p => p.id == command.data.id)
         if (index == -1) {
-          this.items.push(command.data)
+          throw new Error('Cannot find product to update')
         } else {
           // setting item by index is not reactive!
           this.$set(this.items, index, command.data)
         }
+      }
+      if (command.op == 'POST') {
+        fetch(`http://localhost:3000/api/products/${command.data.id}`)
+          .then(response => response.json())
+          .then(product => {
+            this.items.push(product)
+          })
       }
     },
     closeDialog () {
