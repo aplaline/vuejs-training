@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
+const jsonServer = require('json-server')
 const express = require('express')
 const app = express()
 require('express-ws')(app)
-const jsonServer = require('json-server')
 
 const clients = []
 clients.send = message => clients.forEach(client => client.send(message))
