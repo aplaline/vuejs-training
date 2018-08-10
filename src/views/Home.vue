@@ -80,7 +80,6 @@ export default {
       search: '',
       availability: 'all',
       product: null,
-      editedProduct: null,
       items: [],
     }
   },
@@ -88,6 +87,9 @@ export default {
     fetch('http://localhost:3000/api/products')
       .then(response => response.json())
       .then(products => this.items = products)
+
+    new WebSocket('ws://localhost:3000/socket')
+      .onmessage = e => { this.processCommand(JSON.parse(e.data)) }
   },
   computed: {
     products () {
@@ -117,18 +119,32 @@ export default {
   methods: {
     update (item) {
       this.product = cloneDeep(item)
-      this.editedProduct = item
       this.$nextTick(() => {
         dialogPolyfill.registerDialog(this.$refs.editor)
         this.$refs.editor.showModal()
       })
     },
     saveChanges () {
-      this.editedProduct.name = this.product.name
-      this.editedProduct.description = this.product.description
-      this.editedProduct.price = this.product.price
-      this.editedProduct.availability = this.product.availability
+      const data = {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'PUT',
+        body: JSON.stringify(this.product)
+      }
+      fetch(`http://localhost:3000/api/products/${this.product.id}`, data)
+        .then(response => { console.log(`Update status: ${response.status}`) })
+
       this.closeDialog()
+    },
+    processCommand (command) {
+      if (command.op == 'PUT' || command.op == 'POST') {
+        const index = this.items.findIndex(p => p.id == command.data.id)
+        if (index == -1) {
+          this.items.push(command.data)
+        } else {
+          // setting item by index is not reactive!
+          this.$set(this.items, index, command.data)
+        }
+      }
     },
     closeDialog () {
       this.$refs.editor.close()
